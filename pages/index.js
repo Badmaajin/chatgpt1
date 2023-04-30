@@ -1,12 +1,22 @@
-import { Input } from "postcss";
-import { useState } from "react";
+// import { Input } from "postcss";
+import { useState, useEffect } from "react";
+// import { tranlateText } from "../components/gtranslate";
 
-const API_KEY = "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";
+const API_KEY = "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";
+
+// import { v2 } from "@google-cloud/translate";
 
 export default function ChatComponent() {
     const [output, setOutput] = useState("");
     const [inputValue, setInputValue] = useState("");
     const [history, setHistory] = useState([]);
+    // async function translateText(text, target) {
+    //     const translate = new v2.Translate({
+    //         apiEndpoint: "translation.googleapis.com",
+    //     });
+    //     const [translation] = await translate.translate(text, target);
+    //     return translation;
+    // }
 
     const getMessage = async () => {
         console.log("clicked");
@@ -28,8 +38,8 @@ export default function ChatComponent() {
                 options
             );
             const data = await response.json();
-            console.log(data);
-            setOutput(data.choices[0].message.content);
+            console.log(data.choices[0].message.content);
+            setOutput(translateText(data.choices[0].message.content));
             if (data.choices[0].message.content) {
                 const updatedHistory = [...history, inputValue];
                 setHistory(updatedHistory);
@@ -60,6 +70,7 @@ export default function ChatComponent() {
                         </a>
                     </div>
                 </div>
+
                 <div className="flex flex-col w-full  justify-between overflow-y-hidden p-10">
                     <main className="relative h-full w-full transition-width flex flex-col overflow-hidden items-stretch flex-1">
                         <div className="group w-full text-blue-300  dark:text-gray-100 border-b border-black/10 dark:border-gray-900/50 dark:bg-gray-800">
